@@ -1,0 +1,4 @@
+.search-bar{
+    grid-template-rows: 4fr;
+     grid-template-columns: 2fr;
+}
