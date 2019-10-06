@@ -2,6 +2,7 @@ export const SearchBarActions = {
 	UpdateValue: "SearchBarActions.UpdateValue",
 	LoadInitialData: "SearchBarActions.LoadInitialData",
 	StoreSearchObject: "SearchBarActions.StoreSearchObject",
+	UpdateTweetData: "SearchBarActions.UpdateTweetData"
 }
 
 export function doHandleChange(value: any) {
@@ -27,9 +28,18 @@ export function doSearchKeyword(keyword: string, twitterData: any) {
 		const twitterResult = twitterData.forEach((t: any) => {
 			if (t.text.match(searchedKey)) { result.push(t) }
 		})
+
 	}
 	return {
 		type: SearchBarActions.StoreSearchObject,
 		twitterResult: result.length > 0 ? result : []
+	}
+}
+
+export function doLoadMoreButtonCLicked() {
+	return {
+		type: SearchBarActions.UpdateTweetData,
+		loadMore: true,
+		buttonHidden: true
 	}
 }
