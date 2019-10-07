@@ -1,6 +1,8 @@
 import { SearchBarActions } from "./action";
 const initialState = {
-    value: ""
+    value: "",
+    loadMore: false,
+    buttonHidden:false
 }
 function reducer(state = initialState, action) {
     switch (action.type) {
@@ -17,7 +19,13 @@ function reducer(state = initialState, action) {
         case SearchBarActions.StoreSearchObject:
             return {
                 ...state,
-                searchedTweet:[...action.twitterResult],
+                searchedTweet: [...action.twitterResult],
+            }
+        case SearchBarActions.UpdateTweetData:
+            return {
+                ...state,
+                loadMore: action.loadMore,
+                buttonHidden: action.buttonHidden,
             }
         default:
             return {

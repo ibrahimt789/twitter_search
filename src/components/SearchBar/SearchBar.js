@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Tweet from "../TweetComponent/Tweet";
-import { doHandleChange, doLoadInitialData, doSearchKeyword } from "./action";
+import { doHandleChange, doLoadInitialData, doSearchKeyword, doLoadMoreButtonCLicked } from "./action";
 const twitter = require("./twitter-data.json");
 
 class SearchBar extends Component {
@@ -13,6 +13,10 @@ class SearchBar extends Component {
 	onSearchClick = () => {
 		const { value, twitterData } = this.props;
 		this.props.onSearchKeyword(value, twitterData);
+	}
+
+	onLoadMoreButtonCLicked = () => {
+		this.props.onLoadMoreButtonCLicked();
 	}
 
 
@@ -32,7 +36,7 @@ class SearchBar extends Component {
 					</div>
 				</div>
 			</div>
-			{searchedTweet && < Tweet searchedTweet={searchedTweet} />}
+			{searchedTweet && searchedTweet.length > 0 && < Tweet onLoadMore={this.onLoadMoreButtonCLicked.bind(this)} searchedTweet={searchedTweet} props={this.props} />}
 		</div>;
 	}
 
@@ -42,7 +46,9 @@ const mapStateToProps = (state) => {
 	return {
 		value: state.value,
 		twitterData: state.twitterData,
-		searchedTweet: state.searchedTweet
+		searchedTweet: state.searchedTweet,
+		loadMore: state.loadMore,
+		buttonHidden: state.buttonHidden
 	};
 };
 const mapDispatchToprops = (dispatch) => {
@@ -50,6 +56,7 @@ const mapDispatchToprops = (dispatch) => {
 		onHandleChange: (value) => dispatch(doHandleChange(value)),
 		loadInitalData: ({ twitterData }) => dispatch(doLoadInitialData(twitterData)),
 		onSearchKeyword: (searchKey, twitterData) => dispatch(doSearchKeyword(searchKey, twitterData)),
+		onLoadMoreButtonCLicked: () => dispatch(doLoadMoreButtonCLicked())
 	}
 }
 export default connect(mapStateToProps, mapDispatchToprops)(SearchBar)
